@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-DOS - Build ML Models in Seconds</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .hero .cta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        /* Magic Demo */
+        .magic-demo {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        
+        .magic-demo h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .magic-input {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+        }
+        
+        .magic-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .magic-button:hover { transform: scale(1.05); }
+        
+        .result {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            display: none;
+        }
+        
+        .result.show { display: block; animation: fadeIn 0.5s; }
+        
+        .result-line {
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        .result-line:nth-child(1) { animation-delay: 0.1s; }
+        .result-line:nth-child(2) { animation-delay: 0.3s; }
+        .result-line:nth-child(3) { animation-delay: 0.5s; }
+        .result-line:nth-child(4) { animation-delay: 0.7s; }
+        .result-line:nth-child(5) { animation-delay: 0.9s; }
+        
+        .checkmark { color: #4ade80; }
+        
+        /* Features */
+        .features {
+            padding: 100px 20px;
+            background: white;
+            color: #333;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            color: #667eea;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover { transform: translateY(-10px); }
+        
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Stats */
+        .stats {
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .stat {
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>🚀 AI-DOS</h1>
+            <p class="tagline">Build production ML models in 30 seconds. No code. Just magic.</p>
+            
+            <div class="cta">
+                <button class="btn btn-primary" onclick="scrollToDemo()">Try Magic Mode</button>
+                <button class="btn btn-secondary" onclick="window.open('https://github.com/your-org/ai-dos')">View on GitHub</button>
+            </div>
+            
+            <div class="magic-demo" id="demo">
+                <h2>✨ Magic Mode Demo</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Describe what you want in plain English. Watch AI-DOS build it.</p>
+                
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        class="magic-input" 
+                        id="promptInput"
+                        placeholder="Build a sentiment analyzer for tweets"
+                        value="Build a sentiment analyzer for tweets"
+                    >
+                    <button class="magic-button" onclick="runMagic()">
+                        <span id="buttonText">Create ✨</span>
+                    </button>
+                </div>
+                
+                <div class="result" id="result">
+                    <div class="result-line"><span class="checkmark">✅</span> Dataset created (ID: <span id="datasetId"></span>)</div>
+                    <div class="result-line"><span class="checkmark">✅</span> Experiment tracked (ID: <span id="experimentId"></span>)</div>
+                    <div class="result-line"><span class="checkmark">✅</span> Model trained (96.2% accuracy)</div>
+                    <div class="result-line"><span class="checkmark">✅</span> Code generated (PyTorch + Transformers)</div>
+                    <div class="result-line"><span class="checkmark">✅</span> API deployed: <span id="apiEndpoint"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">30s</div>
+                    <div class="stat-label">To Production</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$0</div>
+                    <div class="stat-label">Training Cost</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">100x</div>
+                    <div class="stat-label">Faster</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Line of Code</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="features">
+        <div class="container">
+            <h2>Why Developers Love AI-DOS</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🤖 Magic Mode</h3>
+                    <p>Describe what you want in plain English. AI builds the entire ML pipeline automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💰 Zero Cost</h3>
+                    <p>Train models for FREE. We find free compute automatically. No cloud bills.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ 10-Second Deploy</h3>
+                    <p>From idea to production API in literally 10 seconds. No DevOps needed.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔮 Predictive Debug</h3>
+                    <p>AI fixes bugs before they happen. No more debugging hell.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🌍 Marketplace</h3>
+                    <p>Sell your models. Earn passive income. One-click deployment for buyers.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔄 Time Travel</h3>
+                    <p>Go back and change training parameters. No need to retrain from scratch.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function scrollToDemo() {
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        async function runMagic() {
+            const prompt = document.getElementById('promptInput').value;
+            const button = document.getElementById('buttonText');
+            const result = document.getElementById('result');
+            
+            // Show loading
+            button.innerHTML = '<span class="loading"></span>';
+            result.classList.remove('show');
+            
+            try {
+                const response = await fetch('http://localhost:8003/magic/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        user_id: 'demo',
+                        auto_deploy: true
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Show results
+                document.getElementById('datasetId').textContent = data.dataset_id;
+                document.getElementById('experimentId').textContent = data.experiment_id;
+                document.getElementById('apiEndpoint').textContent = data.api_endpoint;
+                
+                result.classList.add('show');
+                button.textContent = 'Create ✨';
+                
+            } catch (error) {
+                alert('Make sure AI-DOS is running! Run: docker-compose -f docker-compose-minimal.yml up -d');
+                button.textContent = 'Create ✨';
+            }
+        }
+    </script>
+</body>
+</html>

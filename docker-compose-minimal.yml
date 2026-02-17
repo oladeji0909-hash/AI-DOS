@@ -1,0 +1,139 @@
+services:
+  # API Gateway
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ai-dos-network
+
+  # DataForge Service
+  dataforge:
+    build: ./services/dataforge
+    ports:
+      - "8001:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MINIO_HOST=minio
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - postgres
+      - minio
+      - rabbitmq
+    volumes:
+      - ./services/dataforge:/app
+    networks:
+      - ai-dos-network
+
+  # ModelHub Service
+  modelhub:
+    build: ./services/modelhub
+    ports:
+      - "8002:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MONGODB_HOST=mongodb
+      - MINIO_HOST=minio
+    depends_on:
+      - postgres
+      - mongodb
+      - minio
+    volumes:
+      - ./services/modelhub:/app
+    networks:
+      - ai-dos-network
+
+  # Magic Mode Service
+  magic:
+    build: ./services/magic
+    ports:
+      - "8003:8003"
+    depends_on:
+      - dataforge
+      - modelhub
+    networks:
+      - ai-dos-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=aidos
+      - POSTGRES_PASSWORD=aidos_dev_password
+      - POSTGRES_DB=aidos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - ai-dos-network
+
+  # MongoDB
+  mongodb:
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aidos
+      - MONGO_INITDB_ROOT_PASSWORD=aidos_dev_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - ai-dos-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ai-dos-network
+
+  # MinIO (S3-compatible storage)
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=aidos
+      - MINIO_ROOT_PASSWORD=aidos_dev_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - ai-dos-network
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=aidos
+      - RABBITMQ_DEFAULT_PASS=aidos_dev_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - ai-dos-network
+
+networks:
+  ai-dos-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  mongodb-data:
+  redis-data:
+  minio-data:
+  rabbitmq-data:

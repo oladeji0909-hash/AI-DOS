@@ -1,0 +1,353 @@
+
+
+services:
+  # API Gateway
+  api-gateway:
+    build: ./services/api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-key}
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ai-dos-network
+
+  # DataForge Service
+  dataforge:
+    build: ./services/dataforge
+    ports:
+      - "8001:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MINIO_HOST=minio
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - postgres
+      - minio
+      - rabbitmq
+    volumes:
+      - ./services/dataforge:/app
+    networks:
+      - ai-dos-network
+
+  # ModelHub Service
+  modelhub:
+    build: ./services/modelhub
+    ports:
+      - "8002:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MONGODB_HOST=mongodb
+      - MINIO_HOST=minio
+    depends_on:
+      - postgres
+      - mongodb
+      - minio
+    volumes:
+      - ./services/modelhub:/app
+    networks:
+      - ai-dos-network
+
+  # TrainOS Service
+  trainos:
+    build: ./services/trainos
+    ports:
+      - "8003:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./services/trainos:/app
+    networks:
+      - ai-dos-network
+
+  # DeployEngine Service
+  deployengine:
+    build: ./services/deployengine
+    ports:
+      - "8004:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+      - MINIO_HOST=minio
+    depends_on:
+      - postgres
+      - redis
+      - minio
+    volumes:
+      - ./services/deployengine:/app
+    networks:
+      - ai-dos-network
+
+  # EvalKit Service
+  evalkit:
+    build: ./services/evalkit
+    ports:
+      - "8005:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MONGODB_HOST=mongodb
+    depends_on:
+      - postgres
+      - mongodb
+    volumes:
+      - ./services/evalkit:/app
+    networks:
+      - ai-dos-network
+
+  # PromptStudio Service
+  promptstudio:
+    build: ./services/promptstudio
+    ports:
+      - "8006:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./services/promptstudio:/app
+    networks:
+      - ai-dos-network
+
+  # AIMarketplace Service
+  marketplace:
+    build: ./services/marketplace
+    ports:
+      - "8007:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - STRIPE_API_KEY=${STRIPE_API_KEY:-sk_test_dummy}
+    depends_on:
+      - postgres
+    volumes:
+      - ./services/marketplace:/app
+    networks:
+      - ai-dos-network
+
+  # CollabSpace Service
+  collabspace:
+    build: ./services/collabspace
+    ports:
+      - "8008:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./services/collabspace:/app
+    networks:
+      - ai-dos-network
+
+  # CostOptimizer Service
+  costoptimizer:
+    build: ./services/costoptimizer
+    ports:
+      - "8009:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - INFLUXDB_HOST=influxdb
+    depends_on:
+      - postgres
+      - influxdb
+    volumes:
+      - ./services/costoptimizer:/app
+    networks:
+      - ai-dos-network
+
+  # AutoML Studio Service
+  automl:
+    build: ./services/automl
+    ports:
+      - "8010:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
+    volumes:
+      - ./services/automl:/app
+    networks:
+      - ai-dos-network
+
+  # SecurityVault Service
+  security:
+    build: ./services/security
+    ports:
+      - "8011:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - VAULT_ADDR=http://vault:8200
+    depends_on:
+      - postgres
+      - vault
+    volumes:
+      - ./services/security:/app
+    networks:
+      - ai-dos-network
+
+  # EdgeSync Service
+  edgesync:
+    build: ./services/edgesync
+    ports:
+      - "8012:8000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - MINIO_HOST=minio
+    depends_on:
+      - postgres
+      - minio
+    volumes:
+      - ./services/edgesync:/app
+    networks:
+      - ai-dos-network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=aidos
+      - POSTGRES_PASSWORD=aidos_dev_password
+      - POSTGRES_DB=aidos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - ai-dos-network
+
+  # MongoDB
+  mongodb:
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aidos
+      - MONGO_INITDB_ROOT_PASSWORD=aidos_dev_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - ai-dos-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ai-dos-network
+
+  # MinIO (S3-compatible storage)
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=aidos
+      - MINIO_ROOT_PASSWORD=aidos_dev_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - ai-dos-network
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=aidos
+      - RABBITMQ_DEFAULT_PASS=aidos_dev_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - ai-dos-network
+
+  # InfluxDB (Time-series database)
+  influxdb:
+    image: influxdb:2.7-alpine
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=aidos
+      - DOCKER_INFLUXDB_INIT_PASSWORD=aidos_dev_password
+      - DOCKER_INFLUXDB_INIT_ORG=aidos
+      - DOCKER_INFLUXDB_INIT_BUCKET=metrics
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=aidos-dev-token
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    networks:
+      - ai-dos-network
+
+  # HashiCorp Vault
+  vault:
+    image: hashicorp/vault:latest
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=aidos-dev-token
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    ports:
+      - "8200:8200"
+    networks:
+      - ai-dos-network
+
+  # Prometheus (Metrics)
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - ai-dos-network
+
+  # Grafana (Visualization)
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - ai-dos-network
+
+networks:
+  ai-dos-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  mongodb-data:
+  redis-data:
+  minio-data:
+  rabbitmq-data:
+  influxdb-data:
+  prometheus-data:
+  grafana-data:

@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:8000']
+
+  - job_name: 'dataforge'
+    static_configs:
+      - targets: ['dataforge:8000']
+
+  - job_name: 'modelhub'
+    static_configs:
+      - targets: ['modelhub:8000']
