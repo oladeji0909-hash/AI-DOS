@@ -87,6 +87,14 @@ services:
     networks:
       - ai-dos-network
 
+  # AutoScale Service
+  autoscale:
+    build: ./services/autoscale
+    ports:
+      - "8007:8000"
+    networks:
+      - ai-dos-network
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
