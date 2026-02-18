@@ -25,7 +25,7 @@ class ModelListing(BaseModel):
     task_type: str  # sentiment, classification, generation, etc.
     price: float  # in USD
     seller_id: str
-    model_url: str
+    model_url: Optional[str] = "https://models.ai-dos.io/default"
     accuracy: Optional[float] = None
     tags: List[str] = []
 

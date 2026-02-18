@@ -137,6 +137,15 @@ print(f"✅ Experiment ID: {{experiment_id}}")
 '''
     return code
 
+@app.get("/")
+async def root():
+    return {
+        "service": "Magic Mode",
+        "version": "1.0.0",
+        "description": "AI that builds ML pipelines from natural language",
+        "status": "running"
+    }
+
 @app.post("/magic/create", response_model=MagicResponse)
 async def create_magic(request: MagicRequest):
     """
