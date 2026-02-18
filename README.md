@@ -6,10 +6,13 @@
 
 **Train models for $0. Deploy in 10 seconds. Earn passive income.**
 
+[![GitHub Stars](https://img.shields.io/github/stars/oladeji0909-hash/AI-DOS?style=social)](https://github.com/oladeji0909-hash/AI-DOS/stargazers)
+[![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/oladeji0909-hash/AI-DOS/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Tests](https://img.shields.io/badge/tests-35%2F35%20passing-brightgreen)](https://github.com/oladeji0909-hash/AI-DOS)
 
 [Quick Start](#-quick-start-5-minutes) • [Demo](#-live-demo) • [Features](#-killer-features) • [Docs](#-documentation) • [Community](#-community)
 
@@ -95,8 +98,8 @@ aidos magic "Build a sentiment analyzer for tweets"
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-org/ai-dos.git
-cd ai-dos
+git clone https://github.com/oladeji0909-hash/AI-DOS.git
+cd AI-DOS
 
 # Start everything
 docker-compose -f docker-compose-minimal.yml up -d
@@ -333,8 +336,8 @@ Special thanks to:
 ## 🚀 Ready to Build?
 
 ```bash
-git clone https://github.com/your-org/ai-dos.git
-cd ai-dos
+git clone https://github.com/oladeji0909-hash/AI-DOS.git
+cd AI-DOS
 docker-compose -f docker-compose-minimal.yml up -d
 
 # Visit http://localhost:8000/docs
