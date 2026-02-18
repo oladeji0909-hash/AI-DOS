@@ -7,14 +7,14 @@
 **Train models for $0. Deploy in 10 seconds. Earn passive income.**
 
 [![GitHub Stars](https://img.shields.io/github/stars/oladeji0909-hash/AI-DOS?style=social)](https://github.com/oladeji0909-hash/AI-DOS/stargazers)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue)](https://github.com/oladeji0909-hash/AI-DOS/releases)
+[![Version](https://img.shields.io/badge/version-1.5.0-blue)](https://github.com/oladeji0909-hash/AI-DOS/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Tests](https://img.shields.io/badge/tests-35%2F35%20passing-brightgreen)](https://github.com/oladeji0909-hash/AI-DOS)
 
-[Quick Start](#-quick-start-5-minutes) • [Demo](#-live-demo) • [Features](#-killer-features) • [Docs](#-documentation) • [Community](#-community)
+[Quick Start](#-quick-start-5-minutes) • [Demo](#-live-demo) • [Features](#-killer-features) • [Roadmap](#-roadmap) • [Docs](#-documentation) • [Community](#-community)
 
 </div>
 
@@ -229,12 +229,12 @@ aidos magic "Build a sentiment analyzer for tweets"
 
 ## 📚 Documentation
 
-- [Getting Started Guide](docs/getting-started.md)
-- [API Reference](docs/api-reference.md)
-- [Python SDK Docs](sdk/python/README.md)
-- [CLI Reference](docs/cli-reference.md)
-- [Architecture Guide](docs/architecture.md)
+- [Getting Started Guide](GETTING_STARTED.md)
+- [Roadmap](ROADMAP.md) - Vision to v5.0
 - [Contributing Guide](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [Python SDK Docs](sdk/python/README.md)
 
 ---
 
@@ -267,30 +267,34 @@ mh.log_metrics(run['id'], {"accuracy": 0.95}, step=100)
 
 ---
 
-## 🌟 What's Next
+## 🗺️ Roadmap
 
-**Phase 1 (Current):** ✅ Core platform working
-- Magic Mode
-- DataForge
-- ModelHub
-- Python SDK
-- CLI Tool
+**Current:** v1.5.0 - Complete platform with 9 services, full docs, governance
 
-**Phase 2 (Next 2 weeks):**
-- Real training (not simulated)
-- Real deployment
-- Model marketplace
-- Zero-cost training
+**Coming Next:**
 
-**Phase 3 (Month 2):**
-- Visual builder
-- Team collaboration
-- Advanced features
+### v2.0 (Q3 2026) - Production-Grade
+- 🔄 Real database persistence
+- 🔄 Real model training & deployment
+- 🔄 Kubernetes support
+- 🔄 High availability
 
-**Phase 4 (Month 3):**
-- Enterprise features
-- Global scale
-- Partnerships
+### v3.0 (Q4 2026) - AI-Powered
+- 🔮 AutoML capabilities
+- 🔮 Predictive debugging
+- 🔮 AI-driven optimization
+
+### v4.0 (Q2 2027) - Enterprise
+- 🔮 Multi-tenancy
+- 🔮 SSO integration
+- 🔮 Compliance tools
+
+### v5.0 (Q3 2027) - Global Scale
+- 🔮 Multi-region deployment
+- 🔮 99.99% uptime SLA
+- 🔮 Millions of users
+
+**📖 [View Full Roadmap](ROADMAP.md)** - See detailed plans, timelines, and success metrics
 
 ---
 
