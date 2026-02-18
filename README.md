@@ -7,14 +7,15 @@
 **Train models for $0. Deploy in 10 seconds. Earn passive income.**
 
 [![GitHub Stars](https://img.shields.io/github/stars/oladeji0909-hash/AI-DOS?style=social)](https://github.com/oladeji0909-hash/AI-DOS/stargazers)
-[![Version](https://img.shields.io/badge/version-1.5.0-blue)](https://github.com/oladeji0909-hash/AI-DOS/releases)
+[![Version](https://img.shields.io/badge/version-1.8.0-blue)](https://github.com/oladeji0909-hash/AI-DOS/releases)
+[![Docs](https://img.shields.io/badge/docs-complete-brightgreen)](https://github.com/oladeji0909-hash/AI-DOS#-documentation)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://www.docker.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Tests](https://img.shields.io/badge/tests-35%2F35%20passing-brightgreen)](https://github.com/oladeji0909-hash/AI-DOS)
 
-[Quick Start](#-quick-start-5-minutes) • [Demo](#-live-demo) • [Features](#-killer-features) • [Roadmap](#-roadmap) • [Docs](#-documentation) • [Community](#-community)
+[Quick Start](#-quick-start-5-minutes) • [Demo](#-live-demo) • [Features](#-killer-features) • [Roadmap](#-roadmap) • [FAQ](#-faq) • [Docs](#-documentation) • [Community](#-community)
 
 </div>
 
@@ -229,12 +230,31 @@ aidos magic "Build a sentiment analyzer for tweets"
 
 ## 📚 Documentation
 
-- [Getting Started Guide](GETTING_STARTED.md)
+**Complete Documentation Package:**
+
+### 📖 Getting Started
+- [Getting Started Guide](GETTING_STARTED.md) - 5-minute setup
+- [FAQ](FAQ.md) - 40+ questions answered
+
+### 🗺️ Planning & Vision
 - [Roadmap](ROADMAP.md) - Vision to v5.0
-- [Contributing Guide](CONTRIBUTING.md)
-- [Code of Conduct](CODE_OF_CONDUCT.md)
-- [Security Policy](SECURITY.md)
-- [Python SDK Docs](sdk/python/README.md)
+- [Changelog](CHANGELOG.md) - Release history
+
+### ⚖️ Governance
+- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+- [Code of Conduct](CODE_OF_CONDUCT.md) - Community rules
+- [Security Policy](SECURITY.md) - Vulnerability reporting
+- [License](LICENSE) - MIT License (2026)
+
+### 🏆 Community
+- [Contributors](CONTRIBUTORS.md) - Hall of Fame
+
+### 🎬 Marketing
+- [Demo Video Script](DEMO_VIDEO_SCRIPT.md) - 2-minute showcase
+- [Social Media Templates](SOCIAL_MEDIA_POSTS.md) - Ready-to-post
+
+### 💻 Technical
+- [Python SDK Docs](sdk/python/README.md) - SDK reference
 
 ---
 
@@ -269,7 +289,7 @@ mh.log_metrics(run['id'], {"accuracy": 0.95}, step=100)
 
 ## 🗺️ Roadmap
 
-**Current:** v1.5.0 - Complete platform with 9 services, full docs, governance
+**Current:** v1.8.0 - Complete platform with 9 services, full docs, complete governance
 
 **Coming Next:**
 
