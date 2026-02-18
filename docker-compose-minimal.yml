@@ -95,6 +95,14 @@ services:
     networks:
       - ai-dos-network
 
+  # Analytics Service
+  analytics:
+    build: ./services/analytics
+    ports:
+      - "8008:8000"
+    networks:
+      - ai-dos-network
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
