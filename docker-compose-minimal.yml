@@ -61,6 +61,14 @@ services:
     networks:
       - ai-dos-network
 
+  # Marketplace Service
+  marketplace:
+    build: ./services/marketplace
+    ports:
+      - "8004:8004"
+    networks:
+      - ai-dos-network
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
