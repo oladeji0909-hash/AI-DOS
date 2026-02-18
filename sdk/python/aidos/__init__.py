@@ -286,6 +286,139 @@ class Collab:
         return response.json()
 
 
+class AutoScale:
+    """Auto-scaling and load balancing"""
+    
+    def __init__(self, api_url: str = "http://localhost:8007"):
+        self.api_url = api_url
+    
+    def create_rule(self, deployment_id: str, name: str, metric: str, min_instances: int, max_instances: int, scale_up_threshold: float, scale_down_threshold: float) -> Dict:
+        """
+        Create auto-scaling rule
+        
+        Example:
+            autoscale = AutoScale()
+            rule = autoscale.create_rule(
+                deployment_id="deploy_123",
+                name="CPU Scaling",
+                metric="cpu",
+                min_instances=1,
+                max_instances=10,
+                scale_up_threshold=70.0,
+                scale_down_threshold=30.0
+            )
+        """
+        response = requests.post(
+            f"{self.api_url}/rules",
+            json={
+                "deployment_id": deployment_id,
+                "name": name,
+                "metric": metric,
+                "min_instances": min_instances,
+                "max_instances": max_instances,
+                "scale_up_threshold": scale_up_threshold,
+                "scale_down_threshold": scale_down_threshold
+            }
+        )
+        return response.json()
+    
+    def list_rules(self, deployment_id: str = None) -> List[Dict]:
+        """List scaling rules"""
+        params = {"deployment_id": deployment_id} if deployment_id else {}
+        response = requests.get(f"{self.api_url}/rules", params=params)
+        return response.json()
+    
+    def get_instances(self, deployment_id: str) -> List[Dict]:
+        """Get instances for deployment"""
+        response = requests.get(f"{self.api_url}/instances/{deployment_id}")
+        return response.json()
+    
+    def manual_scale(self, deployment_id: str, target_instances: int) -> Dict:
+        """Manually scale deployment"""
+        response = requests.post(f"{self.api_url}/instances/{deployment_id}/scale?target_instances={target_instances}")
+        return response.json()
+    
+    def check_autoscale(self, deployment_id: str) -> Dict:
+        """Trigger autoscale check"""
+        response = requests.post(f"{self.api_url}/autoscale/check/{deployment_id}")
+        return response.json()
+    
+    def get_events(self, deployment_id: str = None, limit: int = 50) -> List[Dict]:
+        """Get scaling events"""
+        params = {"limit": limit}
+        if deployment_id:
+            params["deployment_id"] = deployment_id
+        response = requests.get(f"{self.api_url}/events", params=params)
+        return response.json()
+    
+    def get_cost(self, deployment_id: str) -> Dict:
+        """Get cost analytics"""
+        response = requests.get(f"{self.api_url}/cost/{deployment_id}")
+        return response.json()
+
+
+class Analytics:
+    """ML insights and business intelligence"""
+    
+    def __init__(self, api_url: str = "http://localhost:8008"):
+        self.api_url = api_url
+    
+    def get_dashboard_summary(self) -> Dict:
+        """Get dashboard summary"""
+        response = requests.get(f"{self.api_url}/analytics/dashboard/summary")
+        return response.json()
+    
+    def get_model_performance(self, model_id: str, time_range: str = "week") -> Dict:
+        """
+        Get model performance analytics
+        
+        Example:
+            analytics = Analytics()
+            perf = analytics.get_model_performance("model_123", time_range="week")
+            print(f"Accuracy: {perf['accuracy_trend']}")
+        """
+        response = requests.get(f"{self.api_url}/analytics/model/{model_id}/performance?time_range={time_range}")
+        return response.json()
+    
+    def get_confusion_matrix(self, model_id: str) -> Dict:
+        """Get confusion matrix"""
+        response = requests.get(f"{self.api_url}/analytics/model/{model_id}/confusion-matrix")
+        return response.json()
+    
+    def compare_experiments(self, experiment_ids: List[str]) -> Dict:
+        """Compare multiple experiments"""
+        response = requests.post(f"{self.api_url}/analytics/experiments/compare", json=experiment_ids)
+        return response.json()
+    
+    def get_usage_overview(self, time_range: str = "week") -> Dict:
+        """Get usage analytics"""
+        response = requests.get(f"{self.api_url}/analytics/usage/overview?time_range={time_range}")
+        return response.json()
+    
+    def get_cost_overview(self, time_range: str = "month") -> Dict:
+        """Get cost analytics"""
+        response = requests.get(f"{self.api_url}/analytics/cost/overview?time_range={time_range}")
+        return response.json()
+    
+    def get_business_overview(self, time_range: str = "month") -> Dict:
+        """Get business metrics"""
+        response = requests.get(f"{self.api_url}/analytics/business/overview?time_range={time_range}")
+        return response.json()
+    
+    def calculate_roi(self) -> Dict:
+        """Calculate ROI"""
+        response = requests.get(f"{self.api_url}/analytics/business/roi")
+        return response.json()
+    
+    def generate_report(self, report_type: str, time_range: str, format: str = "pdf") -> Dict:
+        """Generate custom report"""
+        response = requests.post(
+            f"{self.api_url}/analytics/reports/generate",
+            params={"report_type": report_type, "time_range": time_range, "format": format}
+        )
+        return response.json()
+
+
 # Convenience functions
 def magic(prompt: str, user_id: str = "default") -> Dict:
     """Quick magic mode - one line to create ML pipeline"""
@@ -329,4 +462,4 @@ def quick_start():
 
 
 __version__ = "0.1.0"
-__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "Deploy", "Collab", "magic", "quick_start"]
+__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "Deploy", "Collab", "AutoScale", "Analytics", "magic", "quick_start"]
