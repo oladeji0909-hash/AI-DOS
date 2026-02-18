@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 import httpx
@@ -6,6 +7,14 @@ import json
 from datetime import datetime
 
 app = FastAPI(title="Magic Mode", description="AI that builds ML pipelines from natural language")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class MagicRequest(BaseModel):
     prompt: str
