@@ -263,6 +263,9 @@
                 <a href="http://localhost:8003/docs" target="_blank" class="action-btn">Magic Mode</a>
                 <a href="../marketplace/index.html" target="_blank" class="action-btn">Marketplace</a>
                 <a href="http://localhost:8005/docs" target="_blank" class="action-btn">Deploy Service</a>
+                <a href="http://localhost:8006/docs" target="_blank" class="action-btn">Collaboration</a>
+                <a href="http://localhost:8007/docs" target="_blank" class="action-btn">AutoScale</a>
+                <a href="http://localhost:8008/docs" target="_blank" class="action-btn">Analytics</a>
             </div>
         </div>
 
@@ -276,7 +279,10 @@
             { name: 'ModelHub', port: 8002, url: 'http://localhost:8002/health' },
             { name: 'Magic Mode', port: 8003, url: 'http://localhost:8003/health' },
             { name: 'Marketplace', port: 8004, url: 'http://localhost:8004/health' },
-            { name: 'Deploy', port: 8005, url: 'http://localhost:8005/health' }
+            { name: 'Deploy', port: 8005, url: 'http://localhost:8005/health' },
+            { name: 'Collaboration', port: 8006, url: 'http://localhost:8006/health' },
+            { name: 'AutoScale', port: 8007, url: 'http://localhost:8007/health' },
+            { name: 'Analytics', port: 8008, url: 'http://localhost:8008/health' }
         ];
 
         async function checkServiceHealth(service) {
