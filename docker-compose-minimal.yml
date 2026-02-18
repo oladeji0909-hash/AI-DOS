@@ -79,6 +79,14 @@ services:
     networks:
       - ai-dos-network
 
+  # Collaboration Service
+  collab:
+    build: ./services/collab
+    ports:
+      - "8006:8000"
+    networks:
+      - ai-dos-network
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine

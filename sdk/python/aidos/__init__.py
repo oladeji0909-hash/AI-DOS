@@ -222,6 +222,70 @@ class Deploy:
         return response.json()
 
 
+class Collab:
+    """Team collaboration and sharing"""
+    
+    def __init__(self, api_url: str = "http://localhost:8006"):
+        self.api_url = api_url
+    
+    def create_team(self, name: str, description: str, owner_id: str) -> Dict:
+        """Create a team"""
+        response = requests.post(
+            f"{self.api_url}/teams",
+            json={"name": name, "description": description, "owner_id": owner_id}
+        )
+        return response.json()
+    
+    def add_member(self, team_id: str, user_id: str, role: str) -> Dict:
+        """Add member to team"""
+        response = requests.post(
+            f"{self.api_url}/teams/{team_id}/members",
+            json={"team_id": team_id, "user_id": user_id, "role": role}
+        )
+        return response.json()
+    
+    def share(self, resource_type: str, resource_id: str, shared_by: str, shared_with: str, role: str, message: str = None) -> Dict:
+        """Share resource with user"""
+        response = requests.post(
+            f"{self.api_url}/share",
+            json={
+                "resource_type": resource_type,
+                "resource_id": resource_id,
+                "shared_by": shared_by,
+                "shared_with": shared_with,
+                "role": role,
+                "message": message
+            }
+        )
+        return response.json()
+    
+    def comment(self, resource_type: str, resource_id: str, user_id: str, text: str) -> Dict:
+        """Add comment to resource"""
+        response = requests.post(
+            f"{self.api_url}/comments",
+            json={
+                "resource_type": resource_type,
+                "resource_id": resource_id,
+                "user_id": user_id,
+                "text": text
+            }
+        )
+        return response.json()
+    
+    def get_notifications(self, user_id: str, unread_only: bool = False) -> List[Dict]:
+        """Get user notifications"""
+        response = requests.get(f"{self.api_url}/notifications/{user_id}?unread_only={unread_only}")
+        return response.json()
+    
+    def get_activity(self, user_id: str = None, limit: int = 50) -> List[Dict]:
+        """Get activity feed"""
+        params = {"limit": limit}
+        if user_id:
+            params["user_id"] = user_id
+        response = requests.get(f"{self.api_url}/activity", params=params)
+        return response.json()
+
+
 # Convenience functions
 def magic(prompt: str, user_id: str = "default") -> Dict:
     """Quick magic mode - one line to create ML pipeline"""
@@ -265,4 +329,4 @@ def quick_start():
 
 
 __version__ = "0.1.0"
-__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "Deploy", "magic", "quick_start"]
+__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "Deploy", "Collab", "magic", "quick_start"]
