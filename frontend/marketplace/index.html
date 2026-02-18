@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-DOS Marketplace - Buy & Sell ML Models</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px auto;
+            max-width: 1000px;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .model-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .model-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            color: white;
+        }
+        
+        .model-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .model-task {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .model-body {
+            padding: 25px;
+        }
+        
+        .model-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .model-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .model-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .tag {
+            padding: 5px 12px;
+            background: #e8eaf6;
+            color: #667eea;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+        
+        .model-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #667eea;
+        }
+        
+        .btn-buy {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-buy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show { display: flex; }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .api-endpoint {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🚀 AI-DOS Marketplace</div>
+        </div>
+    </div>
+    
+    <div class="hero">
+        <h1>💰 Buy & Sell ML Models</h1>
+        <p>Monetize your trained models. Get instant API access.</p>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalModels">0</div>
+                <div class="stat-label">Models Listed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$0</div>
+                <div class="stat-label">Platform Fee</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">80%</div>
+                <div class="stat-label">Seller Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Instant</div>
+                <div class="stat-label">API Access</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="models-grid" id="modelsGrid"></div>
+        
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h2>No models found</h2>
+            <p>Visit http://localhost:8004/docs to list your first model!</p>
+        </div>
+    </div>
+    
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <h2>🎉 Purchase Successful!</h2>
+            <p>Your model is ready to use!</p>
+            <div class="api-endpoint" id="apiEndpoint"></div>
+            <p style="font-size: 0.9rem; color: #999;">Use this endpoint to make predictions</p>
+            <button class="btn btn-primary" onclick="closeModal()">Got it!</button>
+        </div>
+    </div>
+    
+    <script>
+        async function loadModels() {
+            try {
+                const response = await fetch('http://localhost:8004/marketplace/models');
+                const models = await response.json();
+                
+                document.getElementById('totalModels').textContent = models.length;
+                
+                const grid = document.getElementById('modelsGrid');
+                const emptyState = document.getElementById('emptyState');
+                
+                if (models.length === 0) {
+                    grid.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+                
+                grid.style.display = 'grid';
+                emptyState.style.display = 'none';
+                
+                grid.innerHTML = models.map(model => `
+                    <div class="model-card">
+                        <div class="model-header">
+                            <div class="model-name">${model.name}</div>
+                            <span class="model-task">${model.task_type}</span>
+                        </div>
+                        <div class="model-body">
+                            <p class="model-desc">${model.description}</p>
+                            <div class="model-stats">
+                                <div class="stat">
+                                    <div class="stat-value">${model.accuracy ? (model.accuracy * 100).toFixed(1) + '%' : 'N/A'}</div>
+                                    <div class="stat-label">Accuracy</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">${model.rating.toFixed(1)} ⭐</div>
+                                    <div class="stat-label">Rating</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">${model.sales_count}</div>
+                                    <div class="stat-label">Sales</div>
+                                </div>
+                            </div>
+                            <div class="model-tags">
+                                ${model.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="model-footer">
+                                <div class="price">$${model.price.toFixed(2)}</div>
+                                <button class="btn-buy" onclick="purchaseModel('${model.id}', ${model.price})">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        async function purchaseModel(modelId, price) {
+            const buyerId = 'user_' + Math.random().toString(36).substr(2, 9);
+            
+            try {
+                const response = await fetch('http://localhost:8004/marketplace/purchase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model_id: modelId,
+                        buyer_id: buyerId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('apiEndpoint').textContent = data.api_endpoint;
+                document.getElementById('purchaseModal').classList.add('show');
+                
+                loadModels();
+            } catch (error) {
+                alert('Purchase failed. Make sure the marketplace service is running!');
+            }
+        }
+        
+        function closeModal() {
+            document.getElementById('purchaseModal').classList.remove('show');
+        }
+        
+        loadModels();
+    </script>
+</body>
+</html>
