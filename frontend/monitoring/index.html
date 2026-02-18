@@ -271,12 +271,12 @@
 
     <script>
         const services = [
-            { name: 'API Gateway', port: 8000, url: 'http://localhost:8000/' },
-            { name: 'DataForge', port: 8001, url: 'http://localhost:8001/' },
-            { name: 'ModelHub', port: 8002, url: 'http://localhost:8002/' },
-            { name: 'Magic Mode', port: 8003, url: 'http://localhost:8003/' },
-            { name: 'Marketplace', port: 8004, url: 'http://localhost:8004/' },
-            { name: 'Deploy', port: 8005, url: 'http://localhost:8005/' }
+            { name: 'API Gateway', port: 8000, url: 'http://localhost:8000/health' },
+            { name: 'DataForge', port: 8001, url: 'http://localhost:8001/health' },
+            { name: 'ModelHub', port: 8002, url: 'http://localhost:8002/health' },
+            { name: 'Magic Mode', port: 8003, url: 'http://localhost:8003/health' },
+            { name: 'Marketplace', port: 8004, url: 'http://localhost:8004/health' },
+            { name: 'Deploy', port: 8005, url: 'http://localhost:8005/health' }
         ];
 
         async function checkServiceHealth(service) {
