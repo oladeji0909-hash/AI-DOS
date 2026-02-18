@@ -69,6 +69,16 @@ services:
     networks:
       - ai-dos-network
 
+  # Deploy Service
+  deploy:
+    build: ./services/deploy
+    ports:
+      - "8005:8000"
+    depends_on:
+      - modelhub
+    networks:
+      - ai-dos-network
+
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine

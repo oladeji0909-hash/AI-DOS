@@ -163,6 +163,65 @@ class ModelHub:
         return response.json()
 
 
+class Deploy:
+    """Model deployment and inference"""
+    
+    def __init__(self, api_url: str = "http://localhost:8005"):
+        self.api_url = api_url
+    
+    def create(self, experiment_id: str, name: str, description: str = None) -> Dict:
+        """
+        Deploy a model from experiment
+        
+        Example:
+            deploy = Deploy()
+            result = deploy.create("exp_123", "My API")
+            print(result['endpoint_url'])
+        """
+        response = requests.post(
+            f"{self.api_url}/deploy/create",
+            json={
+                "experiment_id": experiment_id,
+                "name": name,
+                "description": description
+            }
+        )
+        return response.json()
+    
+    def list(self) -> Dict:
+        """List all deployments"""
+        response = requests.get(f"{self.api_url}/deploy/list")
+        return response.json()
+    
+    def get(self, deployment_id: str) -> Dict:
+        """Get deployment details"""
+        response = requests.get(f"{self.api_url}/deploy/{deployment_id}")
+        return response.json()
+    
+    def delete(self, deployment_id: str) -> Dict:
+        """Stop deployment"""
+        response = requests.delete(f"{self.api_url}/deploy/{deployment_id}")
+        return response.json()
+    
+    def predict(self, deployment_id: str, data: Dict) -> Dict:
+        """Make prediction"""
+        response = requests.post(
+            f"{self.api_url}/deploy/{deployment_id}/predict",
+            json=data
+        )
+        return response.json()
+    
+    def metrics(self, deployment_id: str) -> Dict:
+        """Get deployment metrics"""
+        response = requests.get(f"{self.api_url}/deploy/{deployment_id}/metrics")
+        return response.json()
+    
+    def logs(self, deployment_id: str, limit: int = 100) -> Dict:
+        """Get deployment logs"""
+        response = requests.get(f"{self.api_url}/deploy/{deployment_id}/logs?limit={limit}")
+        return response.json()
+
+
 # Convenience functions
 def magic(prompt: str, user_id: str = "default") -> Dict:
     """Quick magic mode - one line to create ML pipeline"""
@@ -206,4 +265,4 @@ def quick_start():
 
 
 __version__ = "0.1.0"
-__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "magic", "quick_start"]
+__all__ = ["AIDOS", "Magic", "DataForge", "ModelHub", "Deploy", "magic", "quick_start"]
